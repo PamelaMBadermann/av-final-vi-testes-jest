@@ -1,7 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import cors from 'cors';
 import AnnotationRoutes from '../../features/annotations/presentation/routes/routes';
-
 export default class App {
     readonly #express: express.Application;
 
@@ -39,10 +38,11 @@ export default class App {
 
         new AnnotationRoutes().init(router);
     }
-
+    
+    /* istanbul ignore next */
     public start(port: number) {
         this.#express.listen(port, () => {
-            console.log('API rodando...');
+            console.log('Api maravilinda rodando ☻');
         });
     }
 }
