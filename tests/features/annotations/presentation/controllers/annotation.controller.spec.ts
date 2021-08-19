@@ -41,7 +41,7 @@ const makeSut = (): AnnotationController => {
     return new AnnotationController(new AnnotationRepository(), new CacheRepository());
 }
 
-describe('Project Controller', () => {
+describe('Annotation Controller', () => {
     beforeEach(() => {
         jest.resetAllMocks();
     });
