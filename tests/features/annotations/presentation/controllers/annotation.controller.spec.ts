@@ -11,8 +11,8 @@ import {
 } from '../../../../../src/features/annotations/infra';
 import { Annotation } from '../../../../../src/features/annotations/domain/models';
 
-jest.mock('../../../../../src/features/annotations/infra/repositories/project.repository.ts');
-jest.mock('../../../../../src/features/annotations/infra/repositories/cache.repository.ts');
+jest.mock('../../../../../src/features/annotations/infra/repositories/annotation.repository.ts');
+jest.mock('../../../../../src/core/infra/repositories/cache.repository.ts');
 
 const makeRequestStore = (): HttpRequest => ({
     body: {
@@ -48,9 +48,37 @@ describe('Annotation Controller', () => {
     
     describe('Store', () => {
         test('should return code 500 when throw any exception', async () => {
-            jest.spyOn(AnnotationRepository.prototype, 'create');
+            jest.spyOn(AnnotationRepository.prototype, 'create')
+                .mockRejectedValue(new Error());
 
-            // parei em 2:32:16
+            const sut = makeSut();
+            const result = await sut.store(makeRequestStore());
+
+            expect(result).toEqual(serverError());
+        });
+
+        test('should call AnnotationRepository when pass correct values', async () => {
+            const createSpy = jest.spyOn(AnnotationRepository.prototype, 'create');
+            const sut = makeSut();
+
+            await sut.store(makeRequestStore());
+
+            expect(createSpy).toHaveBeenCalledWith(makeRequestStore().body);
+        });
+
+        test('should return code 200 when valid data is provided', async () => {
+            jest.spyOn(AnnotationRepository.prototype, 'create')
+                .mockResolvedValue(makeRequestResult());
+
+            const sut = makeSut();
+            const result = await sut.store(makeRequestStore());
+
+            expect(result).toEqual(ok(makeRequestResult()));
+        });
+
+        test('teste falhando', async () => {
+            const resultado = 4;
+            expect(2 + 2).toEqual(resultado)
         });
     });
 });
