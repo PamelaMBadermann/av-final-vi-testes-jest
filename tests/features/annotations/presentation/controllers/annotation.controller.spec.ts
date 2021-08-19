@@ -1,6 +1,5 @@
 import {
     HttpRequest,
-    notFound,
     ok,
     serverError,
     AnnotationController
@@ -30,7 +29,7 @@ const makeRequestShow = (): HttpRequest => ({
     params: { uid: 'any_uid' }
 });
 
-const makeRequestResult = (): Annotation => ({
+const makeResult = (): Annotation => ({
     uid: 'any_uid',
     title: 'any_title',
     description: 'any_description',
@@ -68,17 +67,33 @@ describe('Annotation Controller', () => {
 
         test('should return code 200 when valid data is provided', async () => {
             jest.spyOn(AnnotationRepository.prototype, 'create')
-                .mockResolvedValue(makeRequestResult());
+                .mockResolvedValue(makeResult());
 
             const sut = makeSut();
             const result = await sut.store(makeRequestStore());
 
-            expect(result).toEqual(ok(makeRequestResult()));
+            expect(result).toEqual(ok(makeResult()));
         });
 
-        test('teste falhando', async () => {
-            const resultado = 4;
-            expect(2 + 2).toEqual(resultado)
+        test('should call CacheRepository when pass correct values', async () => {
+            jest.spyOn(AnnotationRepository.prototype, 'create')
+                .mockResolvedValue(makeResult());
+            
+            const setSpy = jest.spyOn(CacheRepository.prototype, 'set');
+            const delSpy = jest.spyOn(CacheRepository.prototype, 'del');
+            const sut = makeSut();
+            await sut.store(makeRequestStore());
+
+            expect(setSpy).toHaveBeenCalledWith(
+                'project:any_uid',
+                makeResult()
+            );
+
+            expect(delSpy).toHaveBeenCalledWith('project:all');
         });
+    });
+
+    describe('Show', () => {
+
     });
 });
