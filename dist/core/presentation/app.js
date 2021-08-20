@@ -64,9 +64,10 @@ class App {
         router.get('/', (_, response) => response.send('API rodando...'));
         new routes_1.default().init(router);
     }
+    /* istanbul ignore next */
     start(port) {
         __classPrivateFieldGet(this, _App_express, "f").listen(port, () => {
-            console.log('API rodando...');
+            console.log('Api maravilinda rodando ☻');
         });
     }
 }
