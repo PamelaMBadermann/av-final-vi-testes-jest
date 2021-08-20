@@ -1,6 +1,6 @@
 import { Connection, createConnection } from 'typeorm';
 
-export default class Database {
+export class Database {
     private static connection: Connection;
 
     public static getConnection(): Connection {
