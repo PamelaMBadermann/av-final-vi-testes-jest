@@ -1,8 +1,11 @@
-import { User } from './user.model';
+import { User } from '..';
 
 export interface Annotation {
     uid: string;
     title: string;
-    description: string;
-    userUID: User;
+    description?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    userUID: string;
+    user?: User;
 }

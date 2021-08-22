@@ -3,7 +3,7 @@ import request from 'supertest';
 import {
     Database,
     AnnotationEntity,
-    User
+    UserEntity
 } from '../../../../../src/core/infra';
 import App from '../../../../../src/core/presentation/app';
 import { Annotation } from '../../../../../src/core/domain/models';
@@ -15,8 +15,8 @@ import {
 jest.mock('../../../../../src/features/annotations/infra/repositories/annotation.repository.ts');
 jest.mock('../../../../../src/core/infra/repositories/cache.repository.ts');
 
-const makeUser = async (): Promise<User> => {
-    return User.create({
+const makeUser = async (): Promise<UserEntity> => {
+    return UserEntity.create({
         username: 'any_username',
         password: 'any_password'
     }).save();
@@ -39,7 +39,7 @@ describe('Annotation routes', () => {
 
     beforeEach(async () => {
         await AnnotationEntity.clear();
-        await User.clear();
+        await UserEntity.clear();
 
         jest.resetAllMocks();
     });
@@ -100,15 +100,31 @@ describe('Annotation routes', () => {
     });
 
     describe('Get annotations', () => {
-        test('should return code 200 whe has any annotation', async () => {
+        test('should return code 200 when has any annotation', async () => {
             const annotation = await makeAnnotation();
 
             jest.spyOn(AnnotationRepository.prototype, 'getAll')
                 .mockResolvedValue([annotation]);
 
-            await request(server).get('/projects')
+            await request(server).get('/annotations')
                                  .send()
                                  .expect(200);
         }); 
-    })
+    });
+
+    describe('/Get/ annotations/:uid', () => {
+        test('should return code 200 when get annotation by uid', async () => {
+            const annotation = await makeAnnotation();
+
+            jest.spyOn(AnnotationRepository.prototype, 'getOne')
+                .mockResolvedValue(annotation);
+
+            await request(server).get(`/annotations/${annotation.uid}`)
+                                 .send()
+                                 .expect(200)
+                                 .expect(request => {
+                                     expect(request.body.uid).toEqual(annotation.uid);
+                                 });
+        });
+    });
 });
