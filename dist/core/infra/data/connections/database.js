@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Database = void 0;
 const typeorm_1 = require("typeorm");
 class Database {
     static getConnection() {
@@ -20,4 +21,4 @@ class Database {
         await Database.connection.close();
     }
 }
-exports.default = Database;
+exports.Database = Database;

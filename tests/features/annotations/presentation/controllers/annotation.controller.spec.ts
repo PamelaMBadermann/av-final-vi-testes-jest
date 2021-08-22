@@ -17,13 +17,8 @@ const makeRequestStore = (): HttpRequest => ({
     body: {
         title: 'any_title',
         description: 'any_description',
-<<<<<<< HEAD
         createdAt: new Date(Date.now()).toLocaleDateString(),
         updatedAt: new Date(Date.now()).toLocaleDateString(),
-=======
-        startAt: new Date(Date.now()).toLocaleDateString(),
-        finishAt: new Date(Date.now()).toLocaleDateString(),
->>>>>>> 4c559d443fc35e60884f9943c7493d3ecf694e76
         userUID: 'any_uid'
     },
     params: {}
@@ -90,19 +85,11 @@ describe('Annotation Controller', () => {
             await sut.store(makeRequestStore());
 
             expect(setSpy).toHaveBeenCalledWith(
-<<<<<<< HEAD
                 'annotation:any_uid',
                 makeResult()
             );
 
             expect(delSpy).toHaveBeenCalledWith('annotation:all');
-=======
-                'project:any_uid',
-                makeResult()
-            );
-
-            expect(delSpy).toHaveBeenCalledWith('project:all');
->>>>>>> 4c559d443fc35e60884f9943c7493d3ecf694e76
         });
     });
 

@@ -12,8 +12,8 @@ import {
     AnnotationRepository
 } from '../../../../../src/features/annotations/infra';
 
-jest.mock('../../../../../src/features/annotations/infra/repositories/annotations.repository.ts');
 jest.mock('../../../../../src/features/annotations/infra/repositories/annotation.repository.ts');
+jest.mock('../../../../../src/core/infra/repositories/cache.repository.ts');
 
 const makeUser = async (): Promise<User> => {
     return User.create({
@@ -76,9 +76,9 @@ describe('Annotation routes', () => {
             await request(server).post('/annotations').send({
                 title: 'any_title',
                 description: 'any_description',
-                userUid: user.uid,
-                createdAt: new Date(Date.now()).toLocaleDateString(),
-                updatedAt: new Date(Date.now()).toLocaleDateString(),
+                userUID: user.uid,
+                created_at: new Date(Date.now()).toLocaleDateString(),
+                updated_at: new Date(Date.now()).toLocaleDateString(),
             }).expect(200)
               .expect(request => {
                   expect(request.body.userUID).toBe(user.uid);
@@ -89,8 +89,8 @@ describe('Annotation routes', () => {
             await request(server).post('/annotations').send({
                 title: 'any_title',
                 description: 'any_description',
-                createdAt: new Date(Date.now()).toLocaleDateString(),
-                updatedAt: new Date(Date.now()).toLocaleDateString(),
+                created_at: new Date(Date.now()).toLocaleDateString(),
+                updated_at: new Date(Date.now()).toLocaleDateString(),
                 userUID: 'fake_uid'
             }).expect(400, {error: 'Invalid param: userUID'});
         });
