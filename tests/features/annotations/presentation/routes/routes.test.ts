@@ -59,7 +59,7 @@ describe('Annotation routes', () => {
     });
 
     describe('/Post annotations', () => {
-        test('should return code 400 when save annotation with invalid name', async () => {
+        test('should return code 400 when save annotation with invalid title', async () => {
             const user = await makeUser();
 
             await request(server).post('/annotations').send({
@@ -67,7 +67,7 @@ describe('Annotation routes', () => {
                 createdAt: new Date(Date.now()).toLocaleDateString(),
                 updatedAt: new Date(Date.now()).toLocaleDateString(),
                 userUID: user.uid
-            }).expect(400, {error: 'Missing param: name'});
+            }).expect(400, {error: 'Missing param: title'});
         });
 
         test('should return code 200 when save a new annotation', async () => {

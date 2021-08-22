@@ -1,8 +1,9 @@
 import { HttpRequest, HttpResponse } from '../../../../core/presentation';
-import { notFound, ok, serverError } from '../../../../core/presentation';
+import { notFound, ok, badRequest, serverError, InvalidParamError } from '../../../../core/presentation';
 import { MVCController } from '../../../../core/presentation';
 import { AnnotationRepository } from '../../infra';
 import { CacheRepository } from '../../infra';
+import { User } from '../../../../core/infra';
 
 export class AnnotationController implements MVCController {
     readonly #repository: AnnotationRepository;
@@ -53,11 +54,17 @@ export class AnnotationController implements MVCController {
 
     public async store(request: HttpRequest): Promise<HttpResponse> {
         try {
-            const { userUID } = request.params;
-            const { title, description } = request.body;
+            const user = await User.findOne(request.body.userUID);
+            
+            if (!user) {
+                return badRequest(new InvalidParamError('userUID'));
+            }
 
-            const cache = await this.#cache.set(request.body, request.params);
             const annotation = await this.#repository.create(request.body);
+            
+            await this.#cache.set(`annotation:${annotation.uid}`, annotation);
+            await this.#cache.del('project:all');
+
             return ok(annotation);
         } catch (error) {
             return serverError();
