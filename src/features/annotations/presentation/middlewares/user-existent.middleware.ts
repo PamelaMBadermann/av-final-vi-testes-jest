@@ -1,16 +1,12 @@
 import { HttpRequest, HttpResponse } from '../../../../core/presentation';
-import { 
-    ok, 
-    badRequest, 
-    InvalidParamError 
-} from '../../../../core/presentation';
+import { ok, badRequest, InvalidParamError } from '../../../../core/presentation';
 import { Annotation } from '../../domain/models';
-import { User } from '../../../../core/infra';
+import { UserRepository } from '../../../../core/infra';
 
 export class UserExistentMiddleware {
     async handle(request: HttpRequest): Promise<HttpResponse> {
         const body: Annotation = request.body;
-        const user = await User.findOne(body.userUID);
+        const user = await new UserRepository().getOne(body.userUID);
             
         if (!user) {
             return badRequest(new InvalidParamError('userUID'));
@@ -19,63 +15,3 @@ export class UserExistentMiddleware {
         return ok({});
     }
 }
-
-// export default async function AnottationUidNonExistent(request: Request, response: Response, next: NextFunction) {
-//     const { uid } = request.params;
-
-//     const extistentUid = await Anottation.findOne({ uid: uid });
-
-//     if (!extistentUid) {
-//         return response.status(404).json({
-//             mensagem: "Esse Id de recado não existe."
-//         });
-//     }
-
-//     next();
-// }
-
-// export default async function FillAnottation(request: Request, response: Response, next: NextFunction) {
-//     const { title, description } = request.body;
-
-//     if (!title || !description) {
-//         return response.status(400).json({
-//             mensagem: "Necessário preenchimento dod campos TÍTULO e DESCRIÇÃO para prosseguir."
-//         });
-//     }
-
-//     next();
-// } 
-
-// export default async function LengthDescriptionAnottation(request: Request, response: Response, next: NextFunction) {
-//     const { description } = request.body;
-
-//     if (description > 150 ) {
-//         return response.status(400).json({
-//             mensagem: "Descrição não pode ultrapassar 50 caracteres."
-//         })
-//     }
-// } 
-
-// export default async function LengthTitleAnottation(request: Request, response: Response, next: NextFunction) {
-//     const { title } = request.body;
-
-//     if (title > 50 ) {
-//         return response.status(400).json({
-//             mensagem: "Título não pode ultrapassar 50 caracteres."
-//         })
-//     }
-// } 
-
-// export default async function UserUidNonexistent(request: Request, response: Response, next: NextFunction) {
-//     const { userUID } = request.params;
-
-//     const existentUid = await User.findOne({ uid: userUID });
-
-//     if (!existentUid) {
-//         return response.status(404).json({
-//             mensagem: "Este usuário não existe."
-//         });
-//     }
-
-//     next();
-// } 

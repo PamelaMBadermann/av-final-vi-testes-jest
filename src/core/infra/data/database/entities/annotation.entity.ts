@@ -1,6 +1,6 @@
-import { Entity, BaseEntity, PrimaryColumn, Column, BeforeInsert, BeforeUpdate, ManyToOne, JoinColumn } from "typeorm";
-import { v4 as uuid } from "uuid";
-import { User } from "./user.entity"
+import { Entity, BaseEntity, PrimaryColumn, Column, BeforeInsert, BeforeUpdate, ManyToOne, JoinColumn } from 'typeorm';
+import { v4 as uuid } from 'uuid';
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'annotations' })
 export class AnnotationEntity extends BaseEntity {
@@ -22,9 +22,9 @@ export class AnnotationEntity extends BaseEntity {
     @Column({ name: 'updated_at' })
     updatedAt!: Date;
 
-    @ManyToOne(type => User, user => user.annotations)
+    @ManyToOne(type => UserEntity, user => user.annotations)
     @JoinColumn({name: 'user_uid', referencedColumnName: 'uid'})
-    user!: User;
+    user!: UserEntity;
 
     @BeforeInsert()
     private beforeInsert() {

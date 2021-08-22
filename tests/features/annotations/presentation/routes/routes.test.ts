@@ -71,17 +71,20 @@ describe('Annotation routes', () => {
         });
 
         test('should return code 200 when save a new annotation', async () => {
-            const user = await makeUser();
+            const annotation = await makeAnnotation();
+
+            jest.spyOn(AnnotationRepository.prototype, 'create')
+                .mockResolvedValue(annotation);
 
             await request(server).post('/annotations').send({
                 title: 'any_title',
                 description: 'any_description',
-                userUID: user.uid,
-                created_at: new Date(Date.now()).toLocaleDateString(),
-                updated_at: new Date(Date.now()).toLocaleDateString(),
+                userUID: annotation.userUID,
+                createdAt: new Date(Date.now()).toLocaleDateString(),
+                updatedAt: new Date(Date.now()).toLocaleDateString(),
             }).expect(200)
               .expect(request => {
-                  expect(request.body.userUID).toBe(user.uid);
+                  expect(request.body.userUID).toBe(annotation.userUID);
               });
         });
         
@@ -95,6 +98,17 @@ describe('Annotation routes', () => {
             }).expect(400, {error: 'Invalid param: userUID'});
         });
     });
-});
 
-// parei em 1:04:34 da aula 10/08
+    describe('Get annotations', () => {
+        test('should return code 200 whe has any annotation', async () => {
+            const annotation = await makeAnnotation();
+
+            jest.spyOn(AnnotationRepository.prototype, 'getAll')
+                .mockResolvedValue([annotation]);
+
+            await request(server).get('/projects')
+                                 .send()
+                                 .expect(200);
+        }); 
+    })
+});

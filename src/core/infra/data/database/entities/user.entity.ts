@@ -1,9 +1,9 @@
-import { Entity, BaseEntity, PrimaryColumn, Column, BeforeInsert, BeforeUpdate, OneToMany } from "typeorm";
+import { Entity, BaseEntity, PrimaryColumn, Column, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { AnnotationEntity } from './annotation.entity';
 
 @Entity({ name: 'users' })
-export class User extends BaseEntity {
+export class UserEntity extends BaseEntity {
     @PrimaryColumn()
     uid!: string;
 
