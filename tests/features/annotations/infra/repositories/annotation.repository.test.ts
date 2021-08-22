@@ -1,4 +1,4 @@
-import { UserEntity, AnnotationEntity } from '../../../../../src//core/infra';
+import { UserEntity, AnnotationEntity, Database } from '../../../../../src//core/infra';
 import { Annotation } from '../../../../../src/core/domain';
 
 const makeUser = async (): Promise<UserEntity> => {
@@ -19,3 +19,26 @@ const makeAnnotation = async (): Promise<Annotation> => {
         updatedAt: new Date(Date.now()).toLocaleDateString()
     }).save();
 }
+
+const makeParams = async () => {
+    const user = await makeUser();
+
+    return {
+        title: 'any_title',
+        description: 'any_description',
+        createdAt: new Date(Date.now()).toLocaleDateString(),
+        updatedAt: new Date(Date.now()).toLocaleDateString(),
+        userUID: user.uid
+    };
+}
+
+describe('Annotation Repository', () => {
+    beforeAll(async _ => await new Database().openConnection());
+
+    beforeEach(async _ => {
+        await AnnotationEntity.clear();
+        await UserEntity.clear();
+    });
+
+    afterAll(async _ => await new Database().disconnectDatabase());
+});

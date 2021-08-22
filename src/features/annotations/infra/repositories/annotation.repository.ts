@@ -1,68 +1,64 @@
 import { AnnotationEntity } from '../../../../core/infra';
-import { Annotation } from '../../domain/models';
+import { Annotation } from '../../domain';
+
+interface ParamsCreate {
+    title: string,
+    description: string,
+    createdAt: string,
+    updatedAt: string,
+    userUID: string
+}
 
 export class AnnotationRepository {
-    async create(params: Annotation): Promise<Annotation> {
-        const { title, description, userUID } = params;
-
+    async create(params: ParamsCreate): Promise<Annotation> {
+        const { title, description, createdAt, updatedAt, userUID } = params;
         const annotation = await AnnotationEntity.create({
             title, 
-            description
-        }).save();
+            description, 
+            createdAt,
+            updatedAt,
+            userUID
+        }).save();       
 
-        return Object.assign({}, params, annotation);
+        return {
+            uid: annotation.uid,
+            title: annotation.title, 
+            description: annotation.description, 
+            createdAt: annotation.createdAt, 
+            updatedAt: annotation.updatedAt, 
+            userUID: annotation.userUID
+        };
     }
 
     async getAll(): Promise<Annotation[]> {
         const annotations = await AnnotationEntity.find();
 
-        return annotations.map(annotation => ({
+        return await annotations.map(annotation => ({
             uid: annotation.uid,
-            title: annotation.title,
-            description: annotation.description,
+            title: annotation.title, 
+            description: annotation.description, 
+            createdAt: annotation.createdAt, 
+            updatedAt: annotation.updatedAt, 
             userUID: annotation.userUID
         }));
     }
 
-    async getOne(uid: string): Promise<Annotation | null> {
-        const annotation = await AnnotationEntity.findOne(uid);
+    async getOne(uid: string): Promise<Annotation> {
+        let annotation = await AnnotationEntity.findOne(uid);
 
         if (!annotation) {
-            return null
+            throw new Error('...');
         }
+
+        annotation = annotation as AnnotationEntity;
 
         return {
             uid: annotation.uid,
-            title: annotation.title,
-            description: annotation.description,
+            title: annotation.title, 
+            description: annotation.description, 
+            createdAt: annotation.createdAt, 
+            updatedAt: annotation.updatedAt, 
             userUID: annotation.userUID
-        };
-    }
-
-    public async update(uid: string, params: Annotation): Promise<Annotation | null> {
-        const annotation = await AnnotationEntity.findOne(uid);
-
-            if (!annotation) {
-                return null;
-            }
-
-            annotation.title = params.title;
-            annotation.description = params.description;
-            annotation.save();
-
-            return {
-                uid: annotation.uid,
-                title: annotation.title,
-                description: annotation.description,
-                userUID: annotation.userUID,
-            };
-    }
-
-    async delete(uid: string): Promise<void> {
-        const annotation = await AnnotationEntity.findOne(uid);
-
-        if (annotation) {
-            annotation.remove();
-        }
+       };
     }
 }
