@@ -1,5 +1,5 @@
 import { HttpRequest, HttpResponse } from '../../../../core/presentation';
-import { notFound, ok, badRequest, serverError, InvalidParamError } from '../../../../core/presentation';
+import { notFound, ok, serverError } from '../../../../core/presentation';
 import { MVCController } from '../../../../core/presentation';
 import { AnnotationRepository } from '../../infra';
 import { CacheRepository } from '../../infra';
@@ -54,12 +54,6 @@ export class AnnotationController implements MVCController {
 
     public async store(request: HttpRequest): Promise<HttpResponse> {
         try {
-            const user = await User.findOne(request.body.userUID);
-            
-            if (!user) {
-                return badRequest(new InvalidParamError('userUID'));
-            }
-
             const annotation = await this.#repository.create(request.body);
             
             await this.#cache.set(`annotation:${annotation.uid}`, annotation);

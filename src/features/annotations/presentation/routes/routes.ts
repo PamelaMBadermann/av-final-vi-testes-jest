@@ -2,7 +2,7 @@ import { Router } from'express';
 import { EMVC } from '../../../../core/presentation';
 import { middlewareAdapter, routerMvcAdapter } from '../../../../core/presentation';
 import { AnnotationController } from '../controllers';
-import { AnnotationMiddleware } from '../middlewares';
+import { AnnotationMiddleware, UserExistentMiddleware } from '../middlewares';
 import { MVCController } from '../../../../core/presentation';
 import { AnnotationRepository } from '../../infra';
 import { CacheRepository } from '../../infra';
@@ -22,7 +22,10 @@ export default class AnnotationRoutes {
               routerMvcAdapter(makeController(), EMVC.SHOW));
 
        routes.post('/annotations', 
-              middlewareAdapter(new AnnotationMiddleware()),
+              [
+                     middlewareAdapter(new AnnotationMiddleware()),
+                     middlewareAdapter(new UserExistentMiddleware()),
+              ],
               routerMvcAdapter(makeController(), EMVC.STORE));
         
        routes.put('/annotations/:uid',
