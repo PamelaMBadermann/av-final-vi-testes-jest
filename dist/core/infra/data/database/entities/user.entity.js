@@ -9,11 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.UserEntity = void 0;
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
 const annotation_entity_1 = require("./annotation.entity");
-let User = class User extends typeorm_1.BaseEntity {
+let UserEntity = class UserEntity extends typeorm_1.BaseEntity {
     beforeInsert() {
         this.uid = this.uid ? this.uid : uuid_1.v4();
         this.createdAt = this.createdAt ? this.createdAt : new Date(Date.now());
@@ -26,40 +26,40 @@ let User = class User extends typeorm_1.BaseEntity {
 __decorate([
     typeorm_1.PrimaryColumn(),
     __metadata("design:type", String)
-], User.prototype, "uid", void 0);
+], UserEntity.prototype, "uid", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], User.prototype, "username", void 0);
+], UserEntity.prototype, "username", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], User.prototype, "password", void 0);
+], UserEntity.prototype, "password", void 0);
 __decorate([
     typeorm_1.Column({ name: 'created_at' }),
     __metadata("design:type", Date)
-], User.prototype, "createdAt", void 0);
+], UserEntity.prototype, "createdAt", void 0);
 __decorate([
     typeorm_1.Column({ name: 'updated_at' }),
     __metadata("design:type", Date)
-], User.prototype, "updatedAt", void 0);
+], UserEntity.prototype, "updatedAt", void 0);
 __decorate([
     typeorm_1.OneToMany(type => annotation_entity_1.AnnotationEntity, annotation => annotation.user),
     __metadata("design:type", Array)
-], User.prototype, "annotations", void 0);
+], UserEntity.prototype, "annotations", void 0);
 __decorate([
     typeorm_1.BeforeInsert(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], User.prototype, "beforeInsert", null);
+], UserEntity.prototype, "beforeInsert", null);
 __decorate([
     typeorm_1.BeforeUpdate(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], User.prototype, "beforeUpdate", null);
-User = __decorate([
+], UserEntity.prototype, "beforeUpdate", null);
+UserEntity = __decorate([
     typeorm_1.Entity({ name: 'users' })
-], User);
-exports.User = User;
+], UserEntity);
+exports.UserEntity = UserEntity;

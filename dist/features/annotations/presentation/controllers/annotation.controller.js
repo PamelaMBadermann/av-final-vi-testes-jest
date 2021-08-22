@@ -14,7 +14,6 @@ var _AnnotationController_repository, _AnnotationController_cache;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AnnotationController = void 0;
 const presentation_1 = require("../../../../core/presentation");
-const infra_1 = require("../../../../core/infra");
 class AnnotationController {
     constructor(repository, cache) {
         _AnnotationController_repository.set(this, void 0);
@@ -55,13 +54,9 @@ class AnnotationController {
     }
     async store(request) {
         try {
-            const user = await infra_1.User.findOne(request.body.userUID);
-            if (!user) {
-                return presentation_1.badRequest(new presentation_1.InvalidParamError('userUID'));
-            }
             const annotation = await __classPrivateFieldGet(this, _AnnotationController_repository, "f").create(request.body);
             await __classPrivateFieldGet(this, _AnnotationController_cache, "f").set(`annotation:${annotation.uid}`, annotation);
-            await __classPrivateFieldGet(this, _AnnotationController_cache, "f").del('project:all');
+            await __classPrivateFieldGet(this, _AnnotationController_cache, "f").del('annotation:all');
             return presentation_1.ok(annotation);
         }
         catch (error) {
@@ -69,9 +64,15 @@ class AnnotationController {
         }
     }
     async update(request) {
-        const { uid } = request.params;
-        const annotation = await __classPrivateFieldGet(this, _AnnotationController_repository, "f").create(request.body);
-        return presentation_1.ok(annotation);
+        try {
+            const { uid } = request.params;
+            const annotation = await __classPrivateFieldGet(this, _AnnotationController_repository, "f").update(uid, request.body);
+            await __classPrivateFieldGet(this, _AnnotationController_cache, "f").set(`annotation:${uid}`, annotation);
+            return presentation_1.ok(annotation);
+        }
+        catch (error) {
+            return presentation_1.serverError();
+        }
     }
     async delete(request) {
         try {

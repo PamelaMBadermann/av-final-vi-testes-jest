@@ -15,7 +15,10 @@ class AnnotationRoutes {
     init(routes) {
         routes.get('/annotations', presentation_2.routerMvcAdapter(makeController(), presentation_1.EMVC.INDEX));
         routes.get('/annotations/:uid', presentation_2.routerMvcAdapter(makeController(), presentation_1.EMVC.SHOW));
-        routes.post('/annotations', presentation_2.middlewareAdapter(new middlewares_1.AnnotationMiddleware()), presentation_2.routerMvcAdapter(makeController(), presentation_1.EMVC.STORE));
+        routes.post('/annotations', [
+            presentation_2.middlewareAdapter(new middlewares_1.AnnotationMiddleware()),
+            presentation_2.middlewareAdapter(new middlewares_1.UserExistentMiddleware()),
+        ], presentation_2.routerMvcAdapter(makeController(), presentation_1.EMVC.STORE));
         routes.put('/annotations/:uid', presentation_2.middlewareAdapter(new middlewares_1.AnnotationMiddleware()), presentation_2.routerMvcAdapter(makeController(), presentation_1.EMVC.UPDATE));
         routes.delete('/annotations:uid', presentation_2.routerMvcAdapter(makeController(), presentation_1.EMVC.DELETE));
     }

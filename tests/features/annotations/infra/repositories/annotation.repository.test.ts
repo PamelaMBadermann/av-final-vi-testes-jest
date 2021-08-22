@@ -1,5 +1,6 @@
 import { UserEntity, AnnotationEntity, Database } from '../../../../../src//core/infra';
 import { Annotation } from '../../../../../src/core/domain';
+import { AnnotationRepository } from '../../../../../src/features/annotations/infra';
 
 const makeUser = async (): Promise<UserEntity> => {
     return UserEntity.create({
@@ -33,12 +34,61 @@ const makeParams = async () => {
 }
 
 describe('Annotation Repository', () => {
-    beforeAll(async _ => await new Database().openConnection());
+    beforeAll(async () => await new Database().openConnection());
 
-    beforeEach(async _ => {
+    beforeEach(async () => {
         await AnnotationEntity.clear();
         await UserEntity.clear();
     });
 
-    afterAll(async _ => await new Database().disconnectDatabase());
+    afterAll(async () => await new Database().disconnectDatabase());
+
+    describe('Create', () => {
+        test('should create a new annotation when has valid params', async () => {
+            const params = await makeParams();
+            const annotation = new AnnotationRepository();
+            const result = await annotation.create(params);
+            
+            expect(result).toBeTruthy();
+            expect(result.uid).toBeTruthy();
+            expect(result.title).toEqual(params.title);
+            expect(result.description).toEqual(params.description);
+        });
+    });
+
+    describe('GetAll', () => {
+        test('should return a list of annotations when has any annotation', async () => {
+            const annotation = await makeAnnotation();
+            
+            jest.spyOn(AnnotationRepository.prototype, 'getAll')
+                .mockResolvedValue([annotation]);
+
+            const sut = new AnnotationRepository();
+            const result = await sut.getAll();
+
+            expect(result.length > 0).toBeTruthy();
+        });
+    });
+
+    describe('GetOne', () => {
+        test('should return a annotation when has a annotation with uid defined', async () => {
+            const annotation = await makeAnnotation();
+
+            jest.spyOn(AnnotationRepository.prototype, 'getOne')
+                .mockResolvedValue(annotation);
+
+            const sut = new AnnotationRepository();
+            const result = await sut.getOne(annotation.uid);
+
+            expect(result.uid).toEqual(annotation.uid);
+        });
+    });
+
+    describe('Update', () => {
+        
+    });
+
+    describe('Delete', () => {
+        
+    });
 });

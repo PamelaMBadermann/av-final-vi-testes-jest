@@ -48,9 +48,9 @@ __decorate([
     __metadata("design:type", Date)
 ], AnnotationEntity.prototype, "updatedAt", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => user_entity_1.User, user => user.annotations),
+    typeorm_1.ManyToOne(type => user_entity_1.UserEntity, user => user.annotations),
     typeorm_1.JoinColumn({ name: 'user_uid', referencedColumnName: 'uid' }),
-    __metadata("design:type", user_entity_1.User)
+    __metadata("design:type", user_entity_1.UserEntity)
 ], AnnotationEntity.prototype, "user", void 0);
 __decorate([
     typeorm_1.BeforeInsert(),

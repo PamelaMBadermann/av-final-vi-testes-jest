@@ -61,4 +61,38 @@ export class AnnotationRepository {
             userUID: annotation.userUID
        };
     }
+
+    async update(uid: string, params: ParamsCreate): Promise<Annotation> {
+        const { title, description, createdAt, updatedAt, userUID } = params;
+        const annotation = await AnnotationEntity.findOne(uid);
+
+        if (!annotation) {
+            throw new Error('...');
+        }
+
+        await AnnotationEntity.update(uid, {
+            title, 
+            description, 
+            createdAt,
+            updatedAt,
+            userUID
+        });
+
+        return {
+            uid,
+            title, 
+            description,
+            userUID
+        };    
+    }
+
+    async delete(uid: string): Promise<void> {
+        const annotation = await AnnotationEntity.findOne(uid);
+
+        if (!annotation) {
+            throw new Error('...');
+        }
+
+        await AnnotationEntity.delete(uid);
+    }
 }
