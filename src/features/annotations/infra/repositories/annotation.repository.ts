@@ -59,7 +59,7 @@ export class AnnotationRepository {
             createdAt: annotation.createdAt, 
             updatedAt: annotation.updatedAt, 
             userUID: annotation.userUID
-       };
+        };
     }
 
     async update(uid: string, params: ParamsCreate): Promise<Annotation> {
@@ -76,7 +76,7 @@ export class AnnotationRepository {
             createdAt,
             updatedAt,
             userUID
-        });
+       });
 
         return {
             uid,
@@ -95,4 +95,4 @@ export class AnnotationRepository {
 
         await AnnotationEntity.delete(uid);
     }
-}
+} // 1:19:54

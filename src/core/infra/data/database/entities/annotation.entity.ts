@@ -28,9 +28,9 @@ export class AnnotationEntity extends BaseEntity {
 
     @BeforeInsert()
     private beforeInsert() {
-        this.uid = this.uid ? this.uid : uuid();
-        this.createdAt = this.createdAt ? this.createdAt : new Date(Date.now());
-        this.updatedAt = this.updatedAt ? this.updatedAt : new Date(Date.now());
+        this.uid = uuid();
+        this.createdAt = new Date(Date.now());
+        this.updatedAt = new Date(Date.now());
     }
 
     @BeforeUpdate()

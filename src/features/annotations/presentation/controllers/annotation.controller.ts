@@ -21,9 +21,16 @@ export class AnnotationController implements MVCController {
             if (cache) {
                 return ok(cache);
             }
+
+            const annotations = await this.#repository.getAll();
             
-            const annotation = await this.#repository.getAll();
-            return ok(annotation);
+            if (!annotations || annotations.length === 0) {
+                return notFound();
+            }
+
+            await this.#cache.set('annotation:all', annotations);
+
+            return ok(annotations);
         } catch (error) {
             return serverError();
         }
@@ -82,6 +89,8 @@ export class AnnotationController implements MVCController {
         try {
             const { uid } = request.params;
             await this.#repository.delete(uid);
+
+            await this.#cache.del(`annotation:${uid}`);
         
             return ok ({});
         } catch (error) {

@@ -34,14 +34,18 @@ const makeParams = async () => {
 }
 
 describe('Annotation Repository', () => {
-    beforeAll(async () => await new Database().openConnection());
+    beforeAll(async () => {
+        await new Database().openConnection();
+    });
 
     beforeEach(async () => {
         await AnnotationEntity.clear();
         await UserEntity.clear();
     });
 
-    afterAll(async () => await new Database().disconnectDatabase());
+    afterAll(async () => {
+        await new Database().disconnectDatabase();
+    });
 
     describe('Create', () => {
         test('should create a new annotation when has valid params', async () => {
