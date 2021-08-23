@@ -1,4 +1,4 @@
-import { UserEntity, AnnotationEntity, Database } from '../../../../../src//core/infra';
+import { UserEntity, AnnotationEntity, Database } from '../../../../../src/core/infra';
 import { Annotation } from '../../../../../src/core/domain';
 import { AnnotationRepository } from '../../../../../src/features/annotations/infra';
 
@@ -33,6 +33,17 @@ const makeParams = async () => {
     };
 }
 
+const makeUpdateParams = async (userUID: string): Promise<Annotation> => {
+    return {
+        uid: 'any_uid',
+        title: 'any_title',
+        description: 'updated',
+        createdAt: new Date('2021-08-22'),
+        updatedAt: new Date('2021-08-23'),
+        userUID: userUID
+    };
+}
+
 describe('Annotation Repository', () => {
     beforeAll(async () => {
         await new Database().openConnection();
@@ -45,19 +56,6 @@ describe('Annotation Repository', () => {
 
     afterAll(async () => {
         await new Database().disconnectDatabase();
-    });
-
-    describe('Create', () => {
-        test('should create a new annotation when has valid params', async () => {
-            const params = await makeParams();
-            const annotation = new AnnotationRepository();
-            const result = await annotation.create(params);
-            
-            expect(result).toBeTruthy();
-            expect(result.uid).toBeTruthy();
-            expect(result.title).toEqual(params.title);
-            expect(result.description).toEqual(params.description);
-        });
     });
 
     describe('GetAll', () => {
@@ -88,11 +86,27 @@ describe('Annotation Repository', () => {
         });
     });
 
-    describe('Update', () => {
-        
+    describe('Create', () => {
+        test('should create a new annotation when has valid params', async () => {
+            const params = await makeParams();
+            const annotation = new AnnotationRepository();
+            const result = await annotation.create(params);
+            
+            expect(result).toBeTruthy();
+            expect(result.uid).toBeTruthy();
+            expect(result.title).toEqual(params.title);
+            expect(result.description).toEqual(params.description);
+        });
     });
 
     describe('Delete', () => {
-        
+        test('should delete a annotation when has valid Uid', async () => {
+            const sut = new AnnotationRepository();
+            const annotation = await makeAnnotation();
+
+            const result = await sut.delete(annotation.uid);
+
+            expect(result).toBeTruthy();
+        });
     });
 });

@@ -3,8 +3,6 @@ import { notFound, ok, serverError } from '../../../../core/presentation';
 import { MVCController } from '../../../../core/presentation';
 import { AnnotationRepository } from '../../infra';
 import { CacheRepository } from '../../infra';
-import { UserEntity } from '../../../../core/infra';
-
 export class AnnotationController implements MVCController {
     readonly #repository: AnnotationRepository;
     readonly #cache: CacheRepository;
@@ -73,13 +71,11 @@ export class AnnotationController implements MVCController {
     }
 
     public async update(request: HttpRequest): Promise<HttpResponse> {
+        const { uid } = request.params;
+
         try {
-            const { uid } = request.params;
-            const annotation = await this.#repository.update(uid, request.body);
-
-            await this.#cache.set(`annotation:${uid}`, annotation);
-
-            return ok(annotation);
+            const result = await this.#repository.update(uid, request.body);
+            return ok(result);
         } catch (error) {
             return serverError();
         }
@@ -88,11 +84,9 @@ export class AnnotationController implements MVCController {
     public async delete(request: HttpRequest): Promise<HttpResponse> {
         try {
             const { uid } = request.params;
-            await this.#repository.delete(uid);
 
-            await this.#cache.del(`annotation:${uid}`);
-        
-            return ok ({});
+            const result = await this.#repository.delete(uid);
+            return ok(result);
         } catch (error) {
             return serverError();
         }

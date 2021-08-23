@@ -1,6 +1,7 @@
 import {
     HttpRequest,
     ok,
+    notFound,
     serverError,
     AnnotationController
 } from '../../../../../src/features/annotations/presentation';
@@ -35,6 +36,16 @@ const makeResult = (): Annotation => ({
     description: 'any_description',
     userUID: 'any_uid'
 });
+
+const makeAnnotationResult = () => ({
+    uid: 'any_uid',
+    title: 'any_title',
+    description: 'any_description',
+    userUID: 'any_uid',
+    createdAt: new Date('2021-08-23'),
+    updatedAt: new Date('2021-08-23'),
+});
+
 
 const makeSut = (): AnnotationController => {
     return new AnnotationController(new AnnotationRepository(), new CacheRepository());
@@ -94,6 +105,26 @@ describe('Annotation Controller', () => {
     });
 
     describe('Show', () => {
+        test('should return code 500 when has any error', async () => {
+            jest.spyOn(CacheRepository.prototype, 'get')
+                .mockRejectedValue(new Error());
 
+                const sut = makeSut();
+                const result = await sut.show(makeRequestShow());
+
+                expect(result).toEqual(serverError());
+        });
+
+        test('should return 404 if theres no annotation', async () => {
+            jest.spyOn(CacheRepository.prototype, "get").mockResolvedValue(null);
+
+            jest.spyOn(AnnotationRepository.prototype, 'getAll')
+                .mockResolvedValue([]);
+
+            const sut = makeSut();
+            const result = await sut.show(makeRequestShow());
+
+            expect(result).toEqual(notFound());
+        });
     });
 });
