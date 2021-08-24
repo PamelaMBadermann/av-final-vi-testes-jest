@@ -76,7 +76,7 @@ export class AnnotationRepository {
             createdAt,
             updatedAt,
             userUID
-       });
+        });
 
         return {
             uid,
@@ -95,4 +95,4 @@ export class AnnotationRepository {
 
         await AnnotationEntity.delete(uid);
     }
-} // 1:19:54
+}

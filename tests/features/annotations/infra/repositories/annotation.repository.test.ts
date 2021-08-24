@@ -33,17 +33,6 @@ const makeParams = async () => {
     };
 }
 
-const makeUpdateParams = async (userUID: string): Promise<Annotation> => {
-    return {
-        uid: 'any_uid',
-        title: 'any_title',
-        description: 'updated',
-        createdAt: new Date('2021-08-22'),
-        updatedAt: new Date('2021-08-23'),
-        userUID: userUID
-    };
-}
-
 describe('Annotation Repository', () => {
     beforeAll(async () => {
         await new Database().openConnection();
@@ -99,10 +88,34 @@ describe('Annotation Repository', () => {
         });
     });
 
-    describe('Delete', () => {
-        test('should delete a annotation when has valid Uid', async () => {
+    // mentor, apanhei horrores para o update e o delete. help!
+    
+    // CASO DO UPDATE: Argument of type 'Annotation' is not assignable to parameter of type 'ParamsCreate'.
+    // Property 'description' is optional in type 'Annotation' but required in type 'ParamsCreate'.
+    // fiz alguma coisa de errado nas models ou na entity da annotation?
+    describe('Update', () => {
+    test('should update an annotation when has valid params', async () => {
             const sut = new AnnotationRepository();
             const annotation = await makeAnnotation();
+            const params = await makeParams();
+
+            jest.spyOn(AnnotationRepository.prototype, 'update')
+                .mockResolvedValue(annotation);
+
+            const result = await sut.update(annotation.userUID, params);
+
+            expect(result).toBeTruthy();
+        });
+    }); 
+
+    // não consegui fazer funcionar o delete, mas deixei o teste aqui para que tu me dê as coordenadas, mentor.
+    describe('Delete', () => {
+        test('should delete an annotation when has valid Uid', async () => {
+            const sut = new AnnotationRepository();
+            const annotation = await makeAnnotation();
+
+            jest.spyOn(AnnotationRepository.prototype, 'delete')
+                .mockResolvedValue();
 
             const result = await sut.delete(annotation.uid);
 

@@ -11,7 +11,7 @@ export class AnnotationEntity extends BaseEntity {
     title!: string;
 
     @Column()
-    description?: string;
+    description!: string;
 
     @Column({ name: 'user_uid' })
     userUID!: string;
