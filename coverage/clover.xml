@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1629732546044" clover="3.2.0">
-  <project timestamp="1629732546044" name="All files">
-    <metrics statements="285" coveredstatements="213" conditionals="53" coveredconditionals="27" methods="62" coveredmethods="36" elements="400" coveredelements="276" complexity="0" loc="285" ncloc="285" packages="18" files="37" classes="37"/>
+<coverage generated="1629820774530" clover="3.2.0">
+  <project timestamp="1629820774530" name="All files">
+    <metrics statements="257" coveredstatements="200" conditionals="47" coveredconditionals="25" methods="51" coveredmethods="32" elements="355" coveredelements="257" complexity="0" loc="257" ncloc="257" packages="18" files="35" classes="35"/>
     <package name="core.infra">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="index.ts" path="C:\Pamela\starter\mod-VI-test-jest\av-final\src\core\infra\index.ts">
@@ -13,20 +13,7 @@
       </file>
     </package>
     <package name="core.infra.data.connections">
-      <metrics statements="18" coveredstatements="9" conditionals="10" coveredconditionals="2" methods="5" coveredmethods="2"/>
-      <file name="database.ts" path="C:\Pamela\starter\mod-VI-test-jest\av-final\src\core\infra\data\connections\database.ts">
-        <metrics statements="10" coveredstatements="6" conditionals="6" coveredconditionals="2" methods="3" coveredmethods="2"/>
-        <line num="1" count="5" type="stmt"/>
-        <line num="3" count="5" type="stmt"/>
-        <line num="7" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="15" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="21" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="25" count="2" type="stmt"/>
-      </file>
+      <metrics statements="8" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="redis.ts" path="C:\Pamela\starter\mod-VI-test-jest\av-final\src\core\infra\data\connections\redis.ts">
         <metrics statements="8" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="7" type="stmt"/>
@@ -56,9 +43,9 @@
         <line num="25" count="2" type="stmt"/>
         <line num="27" count="5" type="stmt"/>
         <line num="30" count="5" type="stmt"/>
-        <line num="31" count="6" type="stmt"/>
-        <line num="32" count="6" type="stmt"/>
-        <line num="33" count="6" type="stmt"/>
+        <line num="31" count="8" type="stmt"/>
+        <line num="32" count="8" type="stmt"/>
+        <line num="33" count="8" type="stmt"/>
         <line num="37" count="5" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
       </file>
@@ -81,9 +68,9 @@
         <line num="22" count="2" type="stmt"/>
         <line num="23" count="5" type="stmt"/>
         <line num="26" count="5" type="stmt"/>
-        <line num="27" count="7" type="stmt"/>
-        <line num="28" count="7" type="stmt"/>
-        <line num="29" count="7" type="stmt"/>
+        <line num="27" count="10" type="stmt"/>
+        <line num="28" count="10" type="stmt"/>
+        <line num="29" count="10" type="stmt"/>
         <line num="33" count="5" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
       </file>
@@ -119,28 +106,7 @@
       </file>
     </package>
     <package name="core.presentation">
-      <metrics statements="26" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="2"/>
-      <file name="app.ts" path="C:\Pamela\starter\mod-VI-test-jest\av-final\src\core\presentation\app.ts">
-        <metrics statements="18" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="2"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-      </file>
+      <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="index.ts" path="C:\Pamela\starter\mod-VI-test-jest\av-final\src\core\presentation\index.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
@@ -388,7 +354,7 @@
         <line num="78" count="0" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
         <line num="88" count="0" type="stmt"/>
         <line num="89" count="0" type="stmt"/>
         <line num="91" count="0" type="stmt"/>
